@@ -35,9 +35,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{d97ab345-35b5-45a7-a179-c998a64800dc}</ProjectGuid>
+    <ProjectGuid>{dd0a108b-1356-4be3-8463-0f1b208a81a6}</ProjectGuid>
     <Keyword>Linux</Keyword>
-    <RootNamespace>ConsoleApplication2</RootNamespace>
+    <RootNamespace>WebServer</RootNamespace>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
@@ -75,69 +75,9 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
-    <ClCompile Include="Acceptor.cpp" />
-    <ClCompile Include="base\CurrentThread.cc" />
-    <ClCompile Include="base\Date.cc" />
-    <ClCompile Include="base\Exception.cc" />
-    <ClCompile Include="base\FileUtil.cc" />
-    <ClCompile Include="base\LogFile.cc" />
-    <ClCompile Include="base\Logger.cc" />
-    <ClCompile Include="base\LogStream.cc" />
-    <ClCompile Include="base\ProcessInfo.cc" />
-    <ClCompile Include="base\Thread.cc" />
-    <ClCompile Include="base\ThreadPool.cc" />
-    <ClCompile Include="base\Timestamp.cc" />
-    <ClCompile Include="base\TimeZone.cc" />
-    <ClCompile Include="Channel.cpp" />
-    <ClCompile Include="EventLoop.cpp" />
-    <ClCompile Include="EventLoopThread.cpp" />
-    <ClCompile Include="InetAddress.cc" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Poller.cpp" />
-    <ClCompile Include="Socket.cpp" />
-    <ClCompile Include="SocketsOps.cc" />
-    <ClCompile Include="Thread.cpp" />
-    <ClCompile Include="TimerQueue.cpp" />
-    <ClCompile Include="Timestamp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Acceptor.h" />
-    <ClInclude Include="base\Any.h" />
-    <ClInclude Include="base\BlockingQueue.h" />
-    <ClInclude Include="base\BoundedBlockingQueue.h" />
-    <ClInclude Include="base\Copyable.h" />
-    <ClInclude Include="base\CountDownLatch.h" />
-    <ClInclude Include="base\CurrentThread.h" />
-    <ClInclude Include="base\Date.h" />
-    <ClInclude Include="base\Exception.h" />
-    <ClInclude Include="base\FileUtil.h" />
-    <ClInclude Include="base\LogFile.h" />
-    <ClInclude Include="base\Logger.h" />
-    <ClInclude Include="base\LogStream.h" />
-    <ClInclude Include="base\NonCopyable.h" />
-    <ClInclude Include="base\ProcessInfo.h" />
-    <ClInclude Include="base\RingBuffer.h" />
-    <ClInclude Include="base\StringPiece.h" />
-    <ClInclude Include="base\Thread.h" />
-    <ClInclude Include="base\ThreadPool.h" />
-    <ClInclude Include="base\Timestamp.h" />
-    <ClInclude Include="base\TimeZone.h" />
-    <ClInclude Include="base\Types.h" />
-    <ClInclude Include="base\WeakCallback.h" />
-    <ClInclude Include="CountDownLatch.h" />
-    <ClInclude Include="Channel.h" />
-    <ClInclude Include="EventLoop.h" />
-    <ClInclude Include="EventLoopThread.h" />
-    <ClInclude Include="InetAddress.h" />
-    <ClInclude Include="Poller.h" />
-    <ClInclude Include="Socket.h" />
-    <ClInclude Include="SocketsOps.h" />
-    <ClInclude Include="Timer.h" />
-    <ClInclude Include="TimerQueue.h" />
-    <ClInclude Include="Timestamp.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="base\CMakeLists.txt" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
