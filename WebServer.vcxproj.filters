@@ -21,6 +21,8 @@
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\EventLoopThread.cpp" />
     <ClCompile Include="src\Thread.cpp" />
+    <ClCompile Include="src\Acceptor.cpp" />
+    <ClCompile Include="src\Socket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Channel.h">
@@ -35,5 +37,7 @@
     <ClInclude Include="src\Timer.h" />
     <ClInclude Include="src\EventLoopThread.h" />
     <ClInclude Include="src\Thread.h" />
+    <ClInclude Include="src\Acceptor.h" />
+    <ClInclude Include="src\Socket.h" />
   </ItemGroup>
 </Project>

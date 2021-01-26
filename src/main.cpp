@@ -132,34 +132,106 @@
 // test6.cc 是一个多线程的程序
 #include "EventLoopThread.h"
 
-void runInThread()
+//void runInThread()
+//{
+//    printf("runInThread(): pid = %d, tid = %d\n", getpid(), static_cast<pid_t>(::syscall(SYS_gettid)) );
+//}
+//
+//int main()
+//{
+//    // 加入主线程的tid是660
+//    printf("main(): pid = %d, tid = %d\n", getpid(), static_cast<pid_t>(::syscall(SYS_gettid)));
+//
+//    // 这EventLoopThread对象里面创建了一个子线程，子线程拥有一个loop对象，并返还给loop指针
+//    // 因为loop对象是在子线程里面创建的，加入子线程的id是661，那么loop对象里面的id是661
+//    EventLoopThread loopThread;
+//    EventLoop* loop = loopThread.startLoop();
+//
+//    //在主线程里面调用，子线程创建的对象，那么这个任务不会立刻执行，会被插入到子线程的loop里面，被子线程执行
+//    loop->runInLoop(runInThread);
+//    sleep(1);
+//
+//    //这个也是同样的道理
+//    loop->runAfter(2, runInThread);
+//    //sleep(3);
+//    //loop->quit();
+//
+//    while (1)
+//    {
+//
+//    }
+//
+//    printf("exit main().\n");
+//}
+#include "Acceptor.h"
+#include "Socket.h"
+
+//test7_1.cc echo一个时间
+void newConnection(int sockfd, const InetAddress& peerAddr)
 {
-    printf("runInThread(): pid = %d, tid = %d\n", getpid(), static_cast<pid_t>(::syscall(SYS_gettid)) );
+    printf("newConnection(): accepted a new connection from %s\n", peerAddr.toHostPort().c_str());
+
+    time_t t;
+    struct tm* timeinfo;  //结构体
+    time(&t);
+    timeinfo = localtime(&t);
+
+    ::write(sockfd, asctime(timeinfo), 13);
+    ::close(sockfd);
 }
+
+
+#include <iostream> /* cout */
+#include <unistd.h>/* gethostname */
+#include <netdb.h> /* struct hostent */
+#include <arpa/inet.h> /* inet_ntop */
+
+bool GetHostInfo(std::string& hostName, std::string& Ip) {
+    char name[256];
+    gethostname(name, sizeof(name));
+    hostName = name;
+
+    struct hostent* host = gethostbyname(name);
+    char ipStr[32];
+    const char* ret = inet_ntop(host->h_addrtype, host->h_addr_list[0], ipStr, sizeof(ipStr));
+    if (NULL == ret) {
+        std::cout << "hostname transform to ip failed";
+        return false;
+    }
+    Ip = ipStr;
+    return true;
+}
+
+
+
 
 int main()
 {
-    // 加入主线程的tid是660
-    printf("main(): pid = %d, tid = %d\n", getpid(), static_cast<pid_t>(::syscall(SYS_gettid)));
+    std::string hostName;
+    std::string Ip;
 
-    // 这EventLoopThread对象里面创建了一个子线程，子线程拥有一个loop对象，并返还给loop指针
-    // 因为loop对象是在子线程里面创建的，加入子线程的id是661，那么loop对象里面的id是661
-    EventLoopThread loopThread;
-    EventLoop* loop = loopThread.startLoop();
-
-    //在主线程里面调用，子线程创建的对象，那么这个任务不会立刻执行，会被插入到子线程的loop里面，被子线程执行
-    loop->runInLoop(runInThread);
-    sleep(1);
-
-    //这个也是同样的道理
-    loop->runAfter(2, runInThread);
-    //sleep(3);
-    //loop->quit();
-
-    while (1)
-    {
-
+    bool ret = GetHostInfo(hostName, Ip);
+    if (true == ret) {
+        std::cout << "hostname: " << hostName << std::endl;
+        std::cout << "Ip: " << Ip << std::endl;
     }
 
-    printf("exit main().\n");
+
+    printf("main(): pid = %d\n", getpid());
+
+    InetAddress listenAddr(8888);
+    EventLoop loop;
+
+    // 创建acceptor对象
+    Acceptor acceptor(&loop, listenAddr);
+    acceptor.setNewConnectionCallback(newConnection);
+
+    // acceptor里面有一个channel的对象，listen的时候enable了这个channel，如果channel上面有事件了
+    // 如果上面有事件可读的时候，会调用它的回调函数
+    acceptor.listen();
+
+    // 开始loop
+    loop.loop();
 }
+
+

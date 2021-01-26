@@ -5,5 +5,6 @@
 D:\Software\Visual Studio 2019\MSBuild\Microsoft\VC\v160\Application Type\Linux\1.0\Linux.targets(190,5): warning : 当前项目体系结构“ARM”不兼容远程系统体系结构“x64”(“x64”)。请在 Configuration Manager 中将项目体系结构切换为“x64”。如果正在交叉编译，可以忽略此警告。
   正在启动远程生成
   正在编译源:
+  main.cpp
   正在链接对象
   WebServer.vcxproj -> E:\WorkData\Personal Code\WebServer\bin\ARM\Debug\WebServer.out

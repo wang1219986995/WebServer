@@ -3,4 +3,7 @@
   <PropertyGroup>
     <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <DebuggerType>NativeOnly</DebuggerType>
+  </PropertyGroup>
 </Project>
