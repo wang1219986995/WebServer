@@ -28,6 +28,9 @@ public:
 
 	void updateChannel(Channel* channel);
 
+	void removeChannel(Channel* channel);
+
+
 	void assertInLoopThread() const
 	{
 		ownerLoop_->assertInLoopThread();

@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 #include <sys/time.h>
-
+#include <stdint.h>
 
 
 
@@ -11,16 +11,29 @@ class Channel
 {
 public:
 	typedef std::function<void()> EventCallback;
+	typedef std::function<void(uint64_t)> ReadEventCallback;
 
 	Channel(EventLoop* loop, int fd);
 	~Channel();
 
-	void handleEvent();
+	void handleEvent(  uint64_t revceiveTime);
 
 	//设置读、写、关、错误事件
-	void setReadCallback(const EventCallback& cb)
+	void setReadCallback(const ReadEventCallback& cb)
 	{
 		readCallback_ = cb;
+	}
+	void setWriteCallback(const EventCallback& cb)
+	{
+		writeCallback_ = cb;
+	}
+	void setErrorCallback(const EventCallback& cb)
+	{
+		errorCallback_ = cb;
+	}
+	void setCloseCallback(const EventCallback& cb)
+	{
+		closeCallback_ = cb;
 	}
 
 	void enableReading()
@@ -29,12 +42,24 @@ public:
 		update();
 	}
 
+	void enableWriting()
+	{
+		events_ |= kWriteEvent; update();
+	}
+	
+	void disableWriting()
+	{
+		events_ &= ~kWriteEvent; update();
+	}
+
+	bool isWriting() const { return events_ & kWriteEvent; }
+
 
 	//void remove();
 
 	bool isNoneEvent() const { return events_ == kNoneEvent; }
 
-
+	void disableAll() { events_ = kNoneEvent; update(); }
 
 	// 常规函数
 	int index() { return index_; }
@@ -57,8 +82,19 @@ private:
 	int events_;
 	int revents_;
 	int index_;
-	EventCallback readCallback_;
 
+	bool eventHandling_;
+
+
+
+
+
+
+
+	ReadEventCallback readCallback_;
+	EventCallback writeCallback_;
+	EventCallback errorCallback_;
+	EventCallback closeCallback_;
 
 };
 

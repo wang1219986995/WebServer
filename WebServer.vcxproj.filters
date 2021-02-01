@@ -23,6 +23,10 @@
     <ClCompile Include="src\Thread.cpp" />
     <ClCompile Include="src\Acceptor.cpp" />
     <ClCompile Include="src\Socket.cpp" />
+    <ClCompile Include="src\TcpServer.cpp" />
+    <ClCompile Include="src\TcpConnection.cpp" />
+    <ClCompile Include="src\Buffer.cpp" />
+    <ClCompile Include="src\EventLoopThreadPool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Channel.h">
@@ -39,5 +43,9 @@
     <ClInclude Include="src\Thread.h" />
     <ClInclude Include="src\Acceptor.h" />
     <ClInclude Include="src\Socket.h" />
+    <ClInclude Include="src\TcpServer.h" />
+    <ClInclude Include="src\TcpConnection.h" />
+    <ClInclude Include="src\Buffer.h" />
+    <ClInclude Include="src\EventLoopThreadPool.h" />
   </ItemGroup>
 </Project>

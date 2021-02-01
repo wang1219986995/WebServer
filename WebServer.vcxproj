@@ -76,6 +76,8 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClCompile Include="src\EventLoopThreadPool.cpp" />
+    <ClCompile Include="src\Buffer.cpp" />
     <ClCompile Include="src\Socket.cpp" />
     <ClCompile Include="src\Acceptor.cpp" />
     <ClCompile Include="src\EventLoopThread.cpp" />
@@ -85,8 +87,12 @@
     <ClCompile Include="src\Poller.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\Thread.cpp" />
+    <ClCompile Include="src\TcpServer.cpp" />
+    <ClCompile Include="src\TcpConnection.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\EventLoopThreadPool.h" />
+    <ClInclude Include="src\Buffer.h" />
     <ClInclude Include="src\Socket.h" />
     <ClInclude Include="src\Acceptor.h" />
     <ClInclude Include="src\EventLoopThread.h" />
@@ -95,6 +101,8 @@
     <ClInclude Include="src\Poller.h" />
     <ClInclude Include="src\Timer.h" />
     <ClInclude Include="src\Thread.h" />
+    <ClInclude Include="src\TcpServer.h" />
+    <ClInclude Include="src\TcpConnection.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>

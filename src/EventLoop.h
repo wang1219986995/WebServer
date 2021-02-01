@@ -88,7 +88,7 @@ private:
 	std::vector<Functor> pendingFunctors_;
 	std::mutex mutex_;
 
-
+	uint64_t pollReturnTime_;
 	
 
 	ChannelList activateChannels_;

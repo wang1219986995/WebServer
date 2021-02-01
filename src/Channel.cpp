@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <poll.h>
+#include <assert.h>
 
 const int Channel::kNoneEvent = 0;
 const int Channel::kReadEvent = POLLIN | POLLPRI;
@@ -17,33 +18,39 @@ events_(0),revents_(0),index_(-1)
 
 Channel::~Channel()
 {
+	assert(!eventHandling_);
 }
 
-void Channel::handleEvent()
+void Channel::handleEvent(uint64_t revceiveTime)
 {
-
-	// 需要完善，没有完全写完
+	eventHandling_ = true;
+	
 	if (revents_ & POLLNVAL)
 	{
 		std::cout << "Channel::handleEvent() POLLNVAL" << std::endl;
-
 	}
 	
-	if (revents_ & (POLLERR | POLLNVAL))
+	if (( revents_ & POLLHUP) && !(revents_& POLLIN))
 	{
-		//
+		if (closeCallback_)	closeCallback_();
 	}
 
-	if (revents_ & (POLLIN | POLLPRI | POLLRDHUP))
+	if (revents_ & (POLLERR | POLLNVAL)) 
 	{
-		if (readCallback_)  readCallback_();
+		if (errorCallback_) errorCallback_();
 	}
 	
+	if ( revents_ & ( POLLIN | POLLPRI | POLLRDHUP))
+	{
+		if (readCallback_)	readCallback_(revceiveTime);
+	}
+
 	if (revents_ & POLLOUT)
 	{
-
+		if (writeCallback_)	writeCallback_();
 	}
 		
+	eventHandling_ = false;
 }
 
 

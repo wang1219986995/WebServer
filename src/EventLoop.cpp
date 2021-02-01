@@ -41,13 +41,14 @@ void EventLoop::loop()
 		poller_->poll(kPollTimerMs, &activateChannels_);
 		for (ChannelList::iterator it = activateChannels_.begin(); it != activateChannels_.end(); ++it)
 		{
-			(*it)->handleEvent();
+			(*it)->handleEvent(pollReturnTime_);
 		}
 
 		// 加在这里的作用是什么， 8.3节
 		doPendingFunctors();
 	}
 	std::cout << " EventLoop " << threadId_ << " has stop looping." << std::endl;
+	looping_ = false;
 }
 
 void EventLoop::updateChannel(Channel* channel)

@@ -60,7 +60,7 @@ void Poller::updateChannel(Channel* channel)
 		assert(0 <= idx && idx < static_cast<int>(pollfds_.size()));
 
 		struct pollfd& pfd = pollfds_[idx];
-		assert(pfd.fd == channel->fd() || pfd.fd == -1);
+		assert(pfd.fd == channel->fd() || pfd.fd == -channel->fd() -1);
 		pfd.events = static_cast<short>(channel->events());
 		pfd.revents = 0;
 		if (channel->isNoneEvent())
@@ -68,6 +68,40 @@ void Poller::updateChannel(Channel* channel)
 			pfd.fd = -1;
 		}
 
+	}
+}
+
+void Poller::removeChannel(Channel* channel)
+{
+	assertInLoopThread();
+	assert(channelmaps_.find(channel->fd()) != channelmaps_.end());
+	assert(channelmaps_[channel->fd()] == channel);
+	assert(channel->isNoneEvent());
+
+	int idx = channel->index();
+	assert(0 <= idx && idx < static_cast<int>(pollfds_.size()));
+	const struct pollfd& pfd = pollfds_[idx]; (void)pfd;
+
+	// 为什么有负号呢
+	assert(pfd.fd == -channel->fd() - 1 && pfd.events == channel->events());
+
+
+	size_t n = channelmaps_.erase(channel->fd());
+	assert(n == 1); void(n);
+	if (static_cast<size_t>(idx) == pollfds_.size() - 1)
+	{
+		pollfds_.pop_back();
+	}
+	else
+	{
+		int channelAtEnd = pollfds_.back().fd;
+		std::iter_swap(pollfds_.begin() + idx, pollfds_.end() - 1);
+		if (channelAtEnd < 0)
+		{
+			channelAtEnd = -channelAtEnd - 1;
+		}
+		channelmaps_[channelAtEnd]->set_index(idx);
+		pollfds_.pop_back();
 	}
 }
 
